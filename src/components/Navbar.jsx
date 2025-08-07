@@ -8,7 +8,7 @@ const Navbar = () => {
       
         {/* YouTube logo */}
         
-        <div className="flex items-center cursor-pointer space-x-8 ml-8">
+        <div className="flex items-center cursor-pointer space-x-6 ml-4">
           <i className="ri-menu-line text-2xl"></i>
           <img src={youtubeLogo} alt="" className='h-24 w-36' />
         </div>

@@ -1,9 +1,11 @@
 import React from 'react'
 import Navbar from './components/Navbar'
+import Body from './components/Body'
 const App = () => {
   return (
-    <div className="App w-full bg-gray-100 min-h-screen">
+    <div className="App w-full bg-white min-h-screen">
       <Navbar/>
+      <Body />
     </div>
   )
 }
