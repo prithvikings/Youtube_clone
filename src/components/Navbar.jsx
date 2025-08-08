@@ -2,14 +2,28 @@ import React from 'react';
 import youtubeLogo from '../assets/youtubeLogo.png'; // Assuming you have a YouTube logo in your assets
 import Avtaar from '../assets/Avtaar.jpg'; // Assuming you have an avatar image in your assets
 import 'remixicon/fonts/remixicon.css'
+import { useDispatch } from 'react-redux';
+import { toggleMenu } from '../utils/AppSlice'; // Import the action to toggle the menu
 const Navbar = () => {
+
+  const dispatch = useDispatch();
+
+  const handleToggleMenu = () => {
+      // Logic to toggle the menu
+      dispatch(toggleMenu());
+    };
+
+
   return (
-    <div className="flex justify-between items-center px-4  bg-white shadow-md">
-      
+
+    <div className="flex justify-between items-center px-4 h-18 py-12 bg-white shadow-md">
+
         {/* YouTube logo */}
         
         <div className="flex items-center cursor-pointer space-x-6 ml-4">
-          <i className="ri-menu-line text-2xl"></i>
+          <i 
+          onClick={() => handleToggleMenu()}
+          className="ri-menu-line text-2xl"></i>
           <img src={youtubeLogo} alt="" className='h-24 w-36' />
         </div>
 

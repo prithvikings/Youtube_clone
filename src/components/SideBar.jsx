@@ -1,9 +1,14 @@
 import React from 'react'
-
+import { useSelector } from 'react-redux'
 const SideBar = () => {
+  let isMenuOpen = useSelector((store) => store.app.isMenuOpen);
+
+
+
   return (
-    <div
-    className='w-72  bg-gray-100 shadow-md px-8 py-4 flex flex-col gap-8'>
+    isMenuOpen && (
+      <div
+        className='w-72  bg-gray-100 shadow-md px-8 py-4 flex flex-col gap-8 transition duration-300 ease-in-out'>
 
 
       <div className='flex flex-col space-y-2 border-b-2 pb-4  border-gray-300'>
@@ -63,7 +68,7 @@ const SideBar = () => {
       </div>
 
     </div>
-  )
+  ))
 }
 
 export default SideBar
