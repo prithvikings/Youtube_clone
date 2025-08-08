@@ -1,6 +1,7 @@
 import React, { useEffect,useState } from 'react'
 import ContentCards from './ContentCards'
 import ButtonList from './ButtonList'
+import { Link } from 'react-router-dom';
 
 
 
@@ -20,7 +21,7 @@ const Content = () => {
     try {
       // Construct the full URL with your API key
       const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
-      const url =  "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=" + YOUTUBE_API_KEY;
+      const url =  "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=8&regionCode=IN&key=" + YOUTUBE_API_KEY;
 
       const response = await fetch(url);
       if (!response.ok) {
@@ -36,11 +37,18 @@ const Content = () => {
   return (
     <div className='w-full h-full px-16 py-16 overflow-y-auto space-y-4'>
       <ButtonList />
-    <div className='w-full h-full flex flex-wrap  overflow-y-auto'>
+    <div className=''>
       
       {videos.map((video,idx)=>{
         return(
-          <ContentCards key={video.id} id={idx} video={video} />
+          <Link
+          className=' flex flex-wrap items-center justify-center gap-4 '
+          to={`/watch/${video.id}`}
+          key={video.id}
+          >
+          <ContentCards id={idx} video={video} />
+          </Link>
+          // 
         )
       })}
     </div>

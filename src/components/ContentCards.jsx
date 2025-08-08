@@ -1,7 +1,6 @@
 import React from 'react'
 
-const ContentCards = ({ video }) => {
-  console.log(video);
+const ContentCards = ( {video} ) => {
    return (
     <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
       <div className="bg-white rounded-lg shadow-sm h-full hover:shadow-lg transition-shadow duration-300 cursor-pointer pb-2">
