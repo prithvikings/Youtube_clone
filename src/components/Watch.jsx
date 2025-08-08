@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { RiThumbUpLine, RiThumbDownLine, RiShareForwardLine, RiSaveLine, RiEyeLine } from 'react-icons/ri';
-
+import { closeMenu } from '../utils/AppSlice'
+import { useDispatch } from 'react-redux';
 const Watch = () => {
   const { id } = useParams(); // Get the video ID from the URL
   const [video, setVideo] = useState(null);
   const [relatedVideos, setRelatedVideos] = useState([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(closeMenu());
+  }, []);
 
   useEffect(() => {
     // Fetch video details by ID (You can use YouTube API here)
