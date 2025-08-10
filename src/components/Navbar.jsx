@@ -1,18 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import youtubeLogo from '../assets/youtubeLogo.png'; // Assuming you have a YouTube logo in your assets
 import Avtaar from '../assets/Avtaar.jpg'; // Assuming you have an avatar image in your assets
 import 'remixicon/fonts/remixicon.css'
 import { useDispatch } from 'react-redux';
 import { toggleMenu } from '../utils/AppSlice'; // Import the action to toggle the menu
+import { useState } from 'react';
 const Navbar = () => {
 
   const dispatch = useDispatch();
 
   const handleToggleMenu = () => {
-      // Logic to toggle the menu
       dispatch(toggleMenu());
     };
 
+    const [search,setSearch] = useState("");
+    const [suggestions,setSuggestions] = useState([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+
+
+    useEffect(()=>{
+      const time=setTimeout(()=>{
+        if(search.length>0){
+          handleSearch();
+        }else {
+                // Clear suggestions when search bar is empty
+                setSuggestions([]);
+            }
+      },200)
+      return()=>{
+        clearTimeout(time);
+      }
+    },[search])
+
+
+    const handleSearch = async () => {
+      const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
+      // const data=await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${search}&type=video&key=${YOUTUBE_API_KEY}`);
+      const autocomplete=await fetch(`http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${search}`);
+      const json=await autocomplete.json();
+      setSuggestions(json[1]);
+    };
 
   return (
 
@@ -28,17 +55,36 @@ const Navbar = () => {
         </div>
 
         {/* Search bar and icons section */}
-        <div className='flex items-center justify-center w-full mx-auto gap-4'>
-          
+        <div className='flex items-center justify-center w-full mx-auto gap-4 relative'>
+        
           <div className='flex items-center justify-center '>
             <input type="text" 
                 placeholder="Search" 
                 className="border border-gray-300 rounded-l-full px-6 py-4 w-3xl focus:outline-none"
-          />
+                value={search}
+                onChange={(e)=>setSearch(e.target.value)}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+              />
           <button className='bg-zinc-200 text-white rounded-r-full px-6 py-4  hover:bg-zinc-300 transition duration-300 cursor-pointer'>
             <i className="ri-search-line text-xl text-zinc-500"></i>
           </button>
+
+          {search.length > 0 && showSuggestions && suggestions.length > 0 && (
+                    <div className='absolute top-full left-1/2 -translate-x-1/2 bg-white shadow-md w-[68rem] rounded-xl z-10'>
+                        <ul className='text-lg space-y-2 py-2'>
+                            {suggestions.map((suggestion, index) => (
+                                <li key={index} className='flex items-center gap-4 cursor-pointer hover:bg-zinc-100 transition duration-300 border-b-2 border-gray-100 px-4 py-2'>
+                                    <i className="ri-search-line text-lg text-gray-500"></i>
+                                    {suggestion}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
           </div>
+
+          
           
           {/* Icons section */}
           <div className='mic bg-zinc-200 rounded-full w-15 h-15 px-4 py-4 hover:bg-zinc-300 transition duration-300 cursor-pointer flex items-center justify-center'>

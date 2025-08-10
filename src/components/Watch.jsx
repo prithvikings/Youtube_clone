@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { RiThumbUpLine, RiThumbDownLine, RiShareForwardLine, RiSaveLine, RiEyeLine } from 'react-icons/ri';
 import { closeMenu } from '../utils/AppSlice'
 import { useDispatch } from 'react-redux';
+import CommentContainer from './CommentContainer';
 const Watch = () => {
   const { id } = useParams(); // Get the video ID from the URL
   const [video, setVideo] = useState(null);
@@ -40,12 +41,12 @@ const Watch = () => {
   if (!video) return <div>Loading...</div>;
 
   return (
-    <div className="watch-page w-full h-full bg-gray-100">
-      <div className="container mx-auto px-4 py-8">
+    <div className="watch-page w-full h-full  overflow-x-hidden">
+      <div className="w-7xl h-full px-24 py-8">
         <div className="video-player w-full bg-black">
           <iframe
             width="100%"
-            height="480"
+            height="680"
             src={`https://www.youtube.com/embed/${id}`}
             title={video.snippet.title}
             frameBorder="0"
@@ -111,6 +112,7 @@ const Watch = () => {
           </div>
         </div>
       </div>
+      <CommentContainer />
     </div>
   );
 };
